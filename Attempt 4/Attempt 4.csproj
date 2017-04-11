@@ -81,6 +81,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ChunkBased\Chunk.cs" />
+    <Compile Include="Assets\ChunkBased\ChunkPointer.cs" />
+    <Compile Include="Assets\ChunkManager.cs" />
+    <Compile Include="Assets\DirtTexturer.cs" />
     <Compile Include="Assets\GenerateWorld.cs" />
     <Compile Include="Assets\HandManager.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />

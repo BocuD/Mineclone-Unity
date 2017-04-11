@@ -14,23 +14,18 @@ public class Block
 
 public class GenerateWorld : MonoBehaviour
 {
-    [SerializeField]
-    public static int width = 100;
-    [SerializeField]
-    public static int depth = 100;
-    [SerializeField]
-    public static int height = 100;
-    public int heightScale = 25;
-    public int heigthtOffset = 100;
-    [SerializeField]
+
+    public static int width = 64;
+    public static int depth = 64;
+    public static int height = 256;
+    public int heightScale = 20;
+    public int heightOffset = 100;
     public float detailScale = 25.0f;
 
     public GameObject snowBlock;
-    public GameObject grassBlock;
     public GameObject sandBlock;
     public GameObject dirtBlock;
     public GameObject stoneBlock;
-    public GameObject diamondBlock;
 
     Block[,,] worldBlocks = new Block[width, height, depth];
 
@@ -42,7 +37,7 @@ public class GenerateWorld : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                int y = (int)(Mathf.PerlinNoise((x + seed) / detailScale, (z + seed) / detailScale) * heightScale) + heigthtOffset;
+                int y = (int)(Mathf.PerlinNoise((x + seed) / detailScale, (z + seed) / detailScale) * heightScale) + heightOffset;
                 Vector3 blockPos = new Vector3(x, y, z);
 
                 CreateBlock(y, blockPos, true);
@@ -64,19 +59,7 @@ public class GenerateWorld : MonoBehaviour
                 Instantiate(snowBlock, blockPos, Quaternion.identity);
             worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(1, create);
         }
-        else if (y > 100)
-        {
-            if (create)
-                Instantiate(grassBlock, blockPos, Quaternion.identity);
-            worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(2, create);
-        }
-        else if (y > 70)
-        {
-            if (create)
-                Instantiate(sandBlock, blockPos, Quaternion.identity);
-            worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new Block(3, create);
-        }
-        else if (y > 50)
+        else if (y > 105)
         {
             if (create)
                 Instantiate(dirtBlock, blockPos, Quaternion.identity);
@@ -100,8 +83,6 @@ public class GenerateWorld : MonoBehaviour
             worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].vis = true;
             if (worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type == 1)
                 Instantiate(snowBlock, blockPos, Quaternion.identity);
-            else if (worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type == 2)
-                Instantiate(grassBlock, blockPos, Quaternion.identity);
             else if (worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type == 3)
                 Instantiate(sandBlock, blockPos, Quaternion.identity);
             else if (worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].type == 4)
@@ -112,10 +93,9 @@ public class GenerateWorld : MonoBehaviour
                 worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].vis = false;
         }
     }
-
-
     // Update is called once per frame
-    public void DestroyBlock(GameObject obj) {
+    public void DestroyBlock(GameObject obj)
+    {
         Vector3 blockPos = obj.transform.position;
         //this is the bottom block. Dont delete it.
         if ((int)blockPos.y == 0) return;
@@ -133,5 +113,15 @@ public class GenerateWorld : MonoBehaviour
                         DrawBlock(neighbour);
                     }
                 }
+    }
+    public bool Doesexist(int x, int y, int z)
+    {
+        if (worldBlocks[(int)x, (int)y, (int)z] != null)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 }
