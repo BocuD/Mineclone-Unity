@@ -17,8 +17,8 @@ public class Chunk : MonoBehaviour {
 
     private ChunkManager manager;
 
-    public static int width = 16;
-    public static int depth = 16;
+    public static int width = 1000;
+    public static int depth = 1000;
     public static int height = 256;
 
     public int heightScale = 20;
@@ -34,9 +34,9 @@ public class Chunk : MonoBehaviour {
     {
         manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ChunkManager>();
         int seed = manager.Seed;
-        for (int z = 0; z < depth; z++)
+        for (int z = (int)transform.position.z; z < transform.position.z + 16; z++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = (int)transform.position.x; x < transform.position.x + 16; x++)
             {
                 int y = (int)(Mathf.PerlinNoise((x + seed) / detailScale, (z + seed) / detailScale) * heightScale) + heightOffset;
                 Vector3 blockPos = new Vector3(x, y, z);
